@@ -21,7 +21,7 @@ public class CustomerRequestDTO {
 
     private String document;
 
-    //private LocalDateTime registrationDate;
+    private LocalDateTime registrationDate;
 
     private AddressRequestDTO addressDTO;
 }
