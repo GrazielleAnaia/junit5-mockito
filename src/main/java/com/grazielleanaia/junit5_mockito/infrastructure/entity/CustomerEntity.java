@@ -48,7 +48,6 @@ public class CustomerEntity {
                 Objects.equals(email, that.email) &&
                 Objects.equals(document, that.document) &&
                 Objects.equals(registrationDate, that.registrationDate);
-
     }
 
     @Override
