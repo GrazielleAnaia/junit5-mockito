@@ -7,6 +7,7 @@ import com.grazielleanaia.junit5_mockito.api.request.CustomerRequestDTO;
 import com.grazielleanaia.junit5_mockito.api.response.CustomerResponseDTO;
 import com.grazielleanaia.junit5_mockito.infrastructure.entity.CustomerEntity;
 import com.grazielleanaia.junit5_mockito.infrastructure.exception.BusinessException;
+import com.grazielleanaia.junit5_mockito.infrastructure.exception.ResourceNotFoundException;
 import com.grazielleanaia.junit5_mockito.infrastructure.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class CustomerService {
             CustomerEntity entity = saveCustomer(customerConverter.toCustomerEntity(customerRequestDTO));
             return customerMapper.toCustomerResponseDTO(entity);
         } catch (Exception e) {
-            throw new BusinessException("Error to save customer info", e.getCause());
+            throw new BusinessException("Error to save customer info", e);
         }
     }
 
@@ -43,7 +44,13 @@ public class CustomerService {
     }
 
     public void deleteCustomer(String email) {
-        customerRepository.deleteByEmail(email);
+        try{
+            CustomerEntity entity = customerRepository.findByEmail(email);
+            customerRepository.deleteByEmail(email);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Customer not found", e);
+        }
+
     }
 
     public CustomerResponseDTO updateCustomer(CustomerRequestDTO customerRequestDTO) {
@@ -53,7 +60,7 @@ public class CustomerService {
             CustomerEntity entity = customerUpdateMapper.updateToCustomerEntity(customerRequestDTO, customer);
             return customerMapper.toCustomerResponseDTO(saveCustomer(entity));
         } catch (Exception e) {
-            throw new BusinessException("Error to save customer info", e.getCause());
+            throw new BusinessException("Error to save customer info", e);
         }
     }
 
