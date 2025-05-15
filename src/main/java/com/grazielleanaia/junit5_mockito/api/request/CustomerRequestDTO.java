@@ -21,6 +21,7 @@ public class CustomerRequestDTO {
 
     private String document;
 
+    @JsonProperty(required = false)
     private LocalDateTime registrationDate;
 
     private AddressRequestDTO addressDTO;
