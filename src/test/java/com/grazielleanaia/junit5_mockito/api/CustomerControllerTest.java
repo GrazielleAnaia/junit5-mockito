@@ -3,6 +3,7 @@ package com.grazielleanaia.junit5_mockito.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.grazielleanaia.junit5_mockito.Junit5MockitoApplication;
 import com.grazielleanaia.junit5_mockito.api.request.AddressRequestDTO;
 import com.grazielleanaia.junit5_mockito.api.request.AddressRequestDTOFixture;
 import com.grazielleanaia.junit5_mockito.api.request.CustomerRequestDTO;
@@ -12,18 +13,16 @@ import com.grazielleanaia.junit5_mockito.api.response.AddressResponseDTOFixture;
 import com.grazielleanaia.junit5_mockito.api.response.CustomerResponseDTO;
 import com.grazielleanaia.junit5_mockito.api.response.CustomerResponseDTOFixture;
 import com.grazielleanaia.junit5_mockito.business.CustomerService;
-import com.grazielleanaia.junit5_mockito.infrastructure.entity.AddressEntity;
-import com.grazielleanaia.junit5_mockito.infrastructure.entity.CustomerEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
@@ -34,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class CustomerControllerTest {
 
