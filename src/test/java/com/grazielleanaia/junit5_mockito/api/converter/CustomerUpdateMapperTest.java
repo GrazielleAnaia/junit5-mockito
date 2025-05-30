@@ -39,8 +39,8 @@ public class CustomerUpdateMapperTest {
                 registrationDate(dateTime).address(addressEntity).build();
 
         addressRequestDTO = AddressRequestDTOFixture.build("17 Java St", "Spring", "OH", 17017L);
-        customerRequestDTO = CustomerRequestDTOFixture.build("Customer Server", "customer@email.com", "12345", dateTime, addressRequestDTO);
-        customerEntityExpect = CustomerEntity.builder().id(123L).name("Customer Server").email("customer@email.com").document("12345").
+        customerRequestDTO = CustomerRequestDTOFixture.build("Customer Server", "customer@email.com", "123456", dateTime, addressRequestDTO);
+        customerEntityExpect = CustomerEntity.builder().id(123L).name("Customer Server").email("customer@email.com").document("123456").
                 registrationDate(dateTime).address(addressEntity).build();
     }
 
