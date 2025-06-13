@@ -112,6 +112,7 @@ public class CustomerServiceTest {
         verifyNoInteractions(customerConverter, customerMapper, customerRepository);
     }
 
+
     @Test
     void shouldNotCreateCustomer3IfRequestDTONull() {
         BusinessException exception = assertThrows(BusinessException.class, () ->
