@@ -113,6 +113,7 @@ public class CustomerServiceTest {
         verifyNoInteractions(customerConverter, customerMapper, customerRepository);
     }
 
+
     @Test
     void shouldGenerateExceptionMessageToCreateCustomer() {
         when(customerConverter.toCustomerEntity(customerRequestDTO)).thenReturn(customerEntity);

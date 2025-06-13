@@ -39,7 +39,7 @@ public class CustomerControllerTest {
     CustomerController customerController;
 
 
-    @Mock
+
     private MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
