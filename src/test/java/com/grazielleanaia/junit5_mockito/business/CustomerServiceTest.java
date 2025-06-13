@@ -86,7 +86,6 @@ public class CustomerServiceTest {
         CustomerEntity customer = customerService.saveCustomer(customerEntity);
         assertEquals(customerEntity, customer);
         verify(customerRepository).saveAndFlush(customerEntity);
-
     }
 
     @Test
@@ -110,6 +109,19 @@ public class CustomerServiceTest {
         assertThat(exception.getMessage(), is("Error to save customer info"));
         assertThat(exception.getCause().getMessage(), is("Customer info is mandatory"));
         assertThat(exception.getClass(), notNullValue());
+        verifyNoInteractions(customerConverter, customerMapper, customerRepository);
+    }
+
+
+    @Test
+    void shouldNotCreateCustomer3IfRequestDTONull() {
+        BusinessException exception = assertThrows(BusinessException.class, () ->
+                customerService.createCustomer3(null));
+        assertThat(exception, notNullValue());
+        assertThat(exception.getMessage(), is("Error to save customer info"));
+        assertThat(exception.getCause().getMessage(), is("Customer data is mandatory"));
+        assertThat(exception.getClass(), notNullValue());
+        assertThat(exception.getClass(), is(BusinessException.class));
         verifyNoInteractions(customerConverter, customerMapper, customerRepository);
     }
 
@@ -171,7 +183,6 @@ public class CustomerServiceTest {
     }
 
 
-
     @Test
     void shouldGetCustomerByEmail() {
         when(customerRepository.findByEmail(email)).thenReturn(customerEntity);
@@ -206,7 +217,7 @@ public class CustomerServiceTest {
     @Test
     void shouldGenerateExceptionIfCustomerNotFound() {
         when(customerRepository.findByEmail(email)).thenThrow(new ResourceNotFoundException("Failed to find customer"));
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, ()->
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () ->
                 customerService.deleteCustomer(email));
         assertThat(exception, notNullValue());
         assertThat(exception.getMessage(), is("Customer not found"));
@@ -215,7 +226,6 @@ public class CustomerServiceTest {
         verify(customerRepository).findByEmail(email);
         verifyNoMoreInteractions(customerRepository);
     }
-
 
 
 }

@@ -12,6 +12,9 @@ import com.grazielleanaia.junit5_mockito.infrastructure.repository.CustomerRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
+import static org.springframework.util.Assert.isNull;
 import static org.springframework.util.Assert.notNull;
 
 @Service
@@ -38,13 +41,31 @@ public class CustomerService {
         }
     }
 
+    public CustomerResponseDTO createCustomer2(CustomerRequestDTO customerRequestDTO) {
+        if (Objects.isNull(customerRequestDTO)) {
+            throw new RuntimeException("Customer data is mandatory");
+        }
+        CustomerEntity entity = saveCustomer(customerConverter.toCustomerEntity(customerRequestDTO));
+        return customerMapper.toCustomerResponseDTO(entity);
+    }
+
+    public CustomerResponseDTO createCustomer3(CustomerRequestDTO customerRequestDTO) {
+        try {
+            notNull(customerRequestDTO, "Customer data is mandatory");
+            CustomerEntity entity = saveCustomer(customerConverter.toCustomerEntity(customerRequestDTO));
+            return customerMapper.toCustomerResponseDTO(entity);
+        } catch (final Exception e) {
+            throw new BusinessException("Error to save customer info", e);
+        }
+    }
+
     public CustomerResponseDTO getCustomerByEmail(String email) {
         CustomerEntity customer = customerRepository.findByEmail(email);
         return customer != null ? customerMapper.toCustomerResponseDTO(customer) : null;
     }
 
     public void deleteCustomer(String email) {
-        try{
+        try {
             CustomerEntity entity = customerRepository.findByEmail(email);
             customerRepository.deleteByEmail(email);
         } catch (ResourceNotFoundException e) {
